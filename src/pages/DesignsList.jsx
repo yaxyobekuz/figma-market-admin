@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlinePlusCircle,
   HiOutlineTrash,
@@ -8,7 +8,7 @@ import {
   HiOutlineSquares2X2,
   HiOutlineListBullet,
   HiOutlineArrowPath,
-} from 'react-icons/hi2';
+} from "react-icons/hi2";
 import {
   Button,
   Card,
@@ -19,30 +19,31 @@ import {
   ConfirmDialog,
   Checkbox,
   Badge,
-} from '../components/ui';
-import { DesignCard } from '../components/design';
-import { useDesigns, useDebounce } from '../hooks';
-import categories from '../data/data/categories.data';
-import toast from 'react-hot-toast';
+} from "../components/ui";
+import { DesignCard } from "../components/design";
+import { useDesigns, useDebounce } from "../hooks";
+import categories from "../data/data/categories.data";
+import toast from "react-hot-toast";
+import designService from "../services/design.service";
 
 const sortOptions = [
-  { value: 'newest', label: 'Newest First' },
-  { value: 'oldest', label: 'Oldest First' },
-  { value: 'popular', label: 'Most Popular' },
-  { value: 'title', label: 'Title (A-Z)' },
+  { value: "newest", label: "Newest First" },
+  { value: "oldest", label: "Oldest First" },
+  { value: "popular", label: "Most Popular" },
+  { value: "title", label: "Title (A-Z)" },
 ];
 
 const DesignsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
   const [selectedIds, setSelectedIds] = useState([]);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, id: null });
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
   const [filters, setFilters] = useState({
-    search: searchParams.get('q') || '',
-    category: searchParams.get('category') || '',
-    sortBy: searchParams.get('sortBy') || 'newest',
-    page: parseInt(searchParams.get('page')) || 1,
+    search: searchParams.get("q") || "",
+    category: searchParams.get("category") || "",
+    sortBy: searchParams.get("sortBy") || "newest",
+    page: parseInt(searchParams.get("page")) || 1,
   });
 
   const {
@@ -68,7 +69,7 @@ const DesignsList = () => {
       params.q = debouncedSearch;
     }
 
-    if (filters.category && filters.category !== 'all') {
+    if (filters.category && filters.category !== "all") {
       params.category = filters.category;
     }
 
@@ -76,10 +77,10 @@ const DesignsList = () => {
 
     // Update URL params
     const newParams = new URLSearchParams();
-    if (debouncedSearch) newParams.set('q', debouncedSearch);
-    if (filters.category) newParams.set('category', filters.category);
-    if (filters.sortBy !== 'newest') newParams.set('sortBy', filters.sortBy);
-    if (filters.page > 1) newParams.set('page', filters.page.toString());
+    if (debouncedSearch) newParams.set("q", debouncedSearch);
+    if (filters.category) newParams.set("category", filters.category);
+    if (filters.sortBy !== "newest") newParams.set("sortBy", filters.sortBy);
+    if (filters.page > 1) newParams.set("page", filters.page.toString());
     setSearchParams(newParams);
   }, [debouncedSearch, filters.category, filters.sortBy, filters.page]);
 
@@ -111,10 +112,10 @@ const DesignsList = () => {
 
     try {
       await deleteDesign(deleteConfirm.id);
-      toast.success('Design deleted successfully');
+      toast.success("Design deleted successfully");
       setSelectedIds((prev) => prev.filter((id) => id !== deleteConfirm.id));
     } catch (error) {
-      toast.error('Failed to delete design');
+      toast.error("Failed to delete design");
     } finally {
       setDeleteConfirm({ open: false, id: null });
     }
@@ -127,7 +128,7 @@ const DesignsList = () => {
       toast.success(`Deleted ${result.successful} of ${result.total} designs`);
       setSelectedIds([]);
     } catch (error) {
-      toast.error('Failed to delete designs');
+      toast.error("Failed to delete designs");
     } finally {
       setBulkDeleteConfirm(false);
     }
@@ -135,7 +136,7 @@ const DesignsList = () => {
 
   // Category options
   const categoryOptions = [
-    { value: '', label: 'All Categories' },
+    { value: "", label: "All Categories" },
     ...categories
       .filter((_, i) => i !== 0)
       .map((cat) => ({ value: cat.slug, label: cat.name })),
@@ -147,9 +148,7 @@ const DesignsList = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white">Designs</h1>
-          <p className="text-gray-400">
-            {pagination.totalCount} designs found
-          </p>
+          <p className="text-gray-400">{pagination.totalCount} designs found</p>
         </div>
         <Link to="/designs/new">
           <Button variant="primary" icon={HiOutlinePlusCircle}>
@@ -165,8 +164,8 @@ const DesignsList = () => {
           <div className="flex-1">
             <SearchInput
               value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
-              onClear={() => handleFilterChange('search', '')}
+              onChange={(e) => handleFilterChange("search", e.target.value)}
+              onClear={() => handleFilterChange("search", "")}
               placeholder="Search designs..."
             />
           </div>
@@ -175,7 +174,7 @@ const DesignsList = () => {
           <div className="w-full lg:w-48">
             <Select
               value={filters.category}
-              onChange={(e) => handleFilterChange('category', e.target.value)}
+              onChange={(e) => handleFilterChange("category", e.target.value)}
               options={categoryOptions}
             />
           </div>
@@ -184,7 +183,7 @@ const DesignsList = () => {
           <div className="w-full lg:w-48">
             <Select
               value={filters.sortBy}
-              onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
               options={sortOptions}
             />
           </div>
@@ -192,21 +191,21 @@ const DesignsList = () => {
           {/* View mode */}
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setViewMode('grid')}
+              onClick={() => setViewMode("grid")}
               className={`p-2.5 rounded-xl transition-colors ${
-                viewMode === 'grid'
-                  ? 'bg-violet-500 text-white'
-                  : 'bg-white/5 text-gray-400 hover:text-white'
+                viewMode === "grid"
+                  ? "bg-violet-500 text-white"
+                  : "bg-white/5 text-gray-400 hover:text-white"
               }`}
             >
               <HiOutlineSquares2X2 className="w-5 h-5" />
             </button>
             <button
-              onClick={() => setViewMode('list')}
+              onClick={() => setViewMode("list")}
               className={`p-2.5 rounded-xl transition-colors ${
-                viewMode === 'list'
-                  ? 'bg-violet-500 text-white'
-                  : 'bg-white/5 text-gray-400 hover:text-white'
+                viewMode === "list"
+                  ? "bg-violet-500 text-white"
+                  : "bg-white/5 text-gray-400 hover:text-white"
               }`}
             >
               <HiOutlineListBullet className="w-5 h-5" />
@@ -223,13 +222,17 @@ const DesignsList = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
           >
-            <Card padding="sm" className="bg-violet-500/10 border-violet-500/30">
+            <Card
+              padding="sm"
+              className="bg-violet-500/10 border-violet-500/30"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Checkbox
                     checked={selectedIds.length === designs.length}
                     indeterminate={
-                      selectedIds.length > 0 && selectedIds.length < designs.length
+                      selectedIds.length > 0 &&
+                      selectedIds.length < designs.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -263,7 +266,7 @@ const DesignsList = () => {
           description={
             filters.search
               ? `No designs match "${filters.search}"`
-              : 'Start by adding your first design'
+              : "Start by adding your first design"
           }
           action={
             <Link to="/designs/new">
@@ -276,7 +279,7 @@ const DesignsList = () => {
       ) : (
         <>
           {/* Grid view */}
-          {viewMode === 'grid' && (
+          {viewMode === "grid" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <AnimatePresence mode="popLayout">
                 {designs.map((design, index) => (
@@ -294,7 +297,7 @@ const DesignsList = () => {
           )}
 
           {/* List view */}
-          {viewMode === 'list' && (
+          {viewMode === "list" && (
             <Card padding="none">
               <div className="divide-y divide-white/5">
                 {designs.map((design, index) => (
@@ -305,7 +308,11 @@ const DesignsList = () => {
                     transition={{ delay: index * 0.05 }}
                     className={`
                       flex items-center gap-4 p-4 hover:bg-white/5 transition-colors
-                      ${selectedIds.includes(design._id) ? 'bg-violet-500/10' : ''}
+                      ${
+                        selectedIds.includes(design._id)
+                          ? "bg-violet-500/10"
+                          : ""
+                      }
                     `}
                   >
                     <Checkbox
@@ -315,9 +322,9 @@ const DesignsList = () => {
                     <div className="w-20 h-14 rounded-lg overflow-hidden bg-white/5 flex-shrink-0">
                       {design.thumbnail?.path && (
                         <img
-                          src={`http://localhost:8080${design.thumbnail.path}`}
                           alt={design.title}
                           className="w-full h-full object-cover"
+                          src={designService.getImageUrl(design.thumbnail.path)}
                         />
                       )}
                     </div>
@@ -369,34 +376,37 @@ const DesignsList = () => {
                 Previous
               </Button>
               <div className="flex items-center gap-1">
-                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                  let pageNum;
-                  if (pagination.totalPages <= 5) {
-                    pageNum = i + 1;
-                  } else if (filters.page <= 3) {
-                    pageNum = i + 1;
-                  } else if (filters.page >= pagination.totalPages - 2) {
-                    pageNum = pagination.totalPages - 4 + i;
-                  } else {
-                    pageNum = filters.page - 2 + i;
-                  }
+                {Array.from(
+                  { length: Math.min(5, pagination.totalPages) },
+                  (_, i) => {
+                    let pageNum;
+                    if (pagination.totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (filters.page <= 3) {
+                      pageNum = i + 1;
+                    } else if (filters.page >= pagination.totalPages - 2) {
+                      pageNum = pagination.totalPages - 4 + i;
+                    } else {
+                      pageNum = filters.page - 2 + i;
+                    }
 
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() =>
-                        setFilters((prev) => ({ ...prev, page: pageNum }))
-                      }
-                      className={`w-10 h-10 rounded-xl transition-colors ${
-                        filters.page === pageNum
-                          ? 'bg-violet-500 text-white'
-                          : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
-                      }`}
-                    >
-                      {pageNum}
-                    </button>
-                  );
-                })}
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() =>
+                          setFilters((prev) => ({ ...prev, page: pageNum }))
+                        }
+                        className={`w-10 h-10 rounded-xl transition-colors ${
+                          filters.page === pageNum
+                            ? "bg-violet-500 text-white"
+                            : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  }
+                )}
               </div>
               <Button
                 variant="ghost"

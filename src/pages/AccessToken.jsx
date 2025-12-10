@@ -89,7 +89,7 @@ const AccessToken = () => {
 
           <div className="flex flex-wrap items-center gap-3">
             <Button type="submit" variant="primary" icon={HiKey}>
-              Tokenni saqlash
+              Save Token
             </Button>
             <Button
               type="button"
