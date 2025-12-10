@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../config/api.config';
+import { getStoredAccessToken } from '../config/auth.config';
 
 // Create axios instance
 const api = axios.create({
@@ -13,6 +14,12 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
+    const token = getStoredAccessToken();
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     // Log request in development
     if (import.meta.env.DEV) {
       console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
