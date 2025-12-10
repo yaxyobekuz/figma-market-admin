@@ -7,6 +7,7 @@ import {
   HiOutlineChartBar,
   HiOutlineCog6Tooth,
   HiOutlineTag,
+  HiKey,
   HiXMark,
 } from 'react-icons/hi2';
 
@@ -40,6 +41,11 @@ const menuItems = [
     path: '/settings',
     icon: HiOutlineCog6Tooth,
     label: 'Settings',
+  },
+  {
+    path: '/access-token',
+    icon: HiKey,
+    label: 'Access Token',
   },
 ];
 

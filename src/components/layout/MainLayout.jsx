@@ -10,6 +10,7 @@ const pageTitles = {
   '/categories': 'Categories',
   '/analytics': 'Analytics',
   '/settings': 'Settings',
+  '/access-token': 'Access Token',
 };
 
 const MainLayout = () => {
