@@ -106,10 +106,10 @@ const ImageCropper = ({ isOpen, onClose, image, onCropComplete, aspectRatio: def
     });
   };
 
-  // Aspect ratio o'zgartirish
+  // Change aspect ratio
   const handleRatioChange = (ratio) => {
     setSelectedRatio(ratio);
-    // Ratio o'zgarganda cropni reset qilish
+    // Reset crop when ratio changes
     handleReset();
   };
 
@@ -117,7 +117,7 @@ const ImageCropper = ({ isOpen, onClose, image, onCropComplete, aspectRatio: def
   const toggleLock = () => {
     setIsLocked(!isLocked);
     if (!isLocked) {
-      // Lock qilganda default ratio ga qaytish
+      // Return to default ratio when locking
       setSelectedRatio(4 / 3);
     } else {
       // Unlock qilganda erkin crop

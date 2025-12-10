@@ -5,6 +5,7 @@ import {
   HiOutlinePhoto,
   HiXMark,
   HiOutlineScissors,
+  HiOutlineClipboard,
 } from "react-icons/hi2";
 import {
   formatFileSize,
@@ -13,7 +14,6 @@ import {
   generateId,
 } from "../../utils/helpers";
 import { UPLOAD_LIMITS } from "../../config/api.config";
-import ImagePreview from "../ui/ImagePreview";
 
 const ImageUploader = ({
   value = [],
@@ -28,7 +28,40 @@ const ImageUploader = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [pasteMessage, setPasteMessage] = useState("");
   const fileInputRef = useRef(null);
+
+  // Handle paste from clipboard button
+  const handlePasteFromClipboard = async () => {
+    try {
+      const clipboardItems = await navigator.clipboard.read();
+      const imageItems = [];
+
+      for (const item of clipboardItems) {
+        for (const type of item.types) {
+          if (type.startsWith("image/")) {
+            const blob = await item.getType(type);
+            const file = new File([blob], `clipboard-${Date.now()}.png`, {
+              type: blob.type,
+            });
+            imageItems.push(file);
+          }
+        }
+      }
+
+      if (imageItems.length > 0) {
+        setPasteMessage("Image loaded from clipboard!");
+        setTimeout(() => setPasteMessage(""), 2000);
+        await handleFiles(imageItems);
+      } else {
+        setPasteMessage("No image found in clipboard");
+        setTimeout(() => setPasteMessage(""), 2000);
+      }
+    } catch (error) {
+      console.error("Clipboard error:", error);
+      setErrors(["Failed to read from clipboard"]);
+    }
+  };
 
   // Handle file selection
   const handleFiles = useCallback(
@@ -142,6 +175,21 @@ const ImageUploader = ({
         </label>
       )}
 
+      {/* Paste notification */}
+      <AnimatePresence>
+        {pasteMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="flex items-center gap-2 p-3 bg-violet-500/20 border border-violet-500/30 rounded-lg"
+          >
+            <HiOutlineClipboard className="w-4 h-4 text-violet-400" />
+            <p className="text-sm text-violet-300">{pasteMessage}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Drop zone */}
       <motion.div
         onDragOver={handleDragOver}
@@ -182,12 +230,25 @@ const ImageUploader = ({
             {isDragging ? "Drop files here" : "Drag & drop files here"}
           </p>
           <p className="text-sm text-gray-500 mb-3">or click to browse</p>
+
           <div className="flex items-center gap-2 text-xs text-gray-500">
             <HiOutlinePhoto className="w-4 h-4" />
             <span>JPG, PNG, WebP • Max {formatFileSize(maxSize)}</span>
           </div>
         </div>
       </motion.div>
+
+      {/* Paste from clipboard button */}
+      {value.length < maxFiles && (
+        <button
+          type="button"
+          onClick={handlePasteFromClipboard}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/30 rounded-xl text-violet-300 transition-all duration-200"
+        >
+          <HiOutlineClipboard className="w-5 h-5" />
+          <span className="text-sm">Paste from Clipboard</span>
+        </button>
+      )}
 
       {/* Errors */}
       <AnimatePresence>
@@ -235,6 +296,7 @@ const ImageUploader = ({
                 <div className="absolute inset-0 z-10 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl flex items-center justify-center gap-2">
                   {onCropRequest && (
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleCrop(item);
@@ -246,6 +308,7 @@ const ImageUploader = ({
                     </button>
                   )}
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemove(item.id);
