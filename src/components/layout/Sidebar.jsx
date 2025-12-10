@@ -1,5 +1,5 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { NavLink, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineHome,
   HiOutlineSquares2X2,
@@ -7,51 +7,51 @@ import {
   HiOutlineChartBar,
   HiOutlineCog6Tooth,
   HiOutlineTag,
-  HiKey,
+  HiOutlineKey,
   HiXMark,
-} from 'react-icons/hi2';
+} from "react-icons/hi2";
 
 const menuItems = [
   {
-    path: '/',
+    path: "/",
     icon: HiOutlineHome,
-    label: 'Dashboard',
+    label: "Dashboard",
   },
   {
-    path: '/designs',
+    path: "/designs",
     icon: HiOutlineSquares2X2,
-    label: 'Designs',
+    label: "Designs",
   },
   {
-    path: '/designs/new',
+    path: "/designs/new",
     icon: HiOutlinePlusCircle,
-    label: 'Add Design',
+    label: "Add Design",
   },
   {
-    path: '/categories',
+    path: "/categories",
     icon: HiOutlineTag,
-    label: 'Categories',
+    label: "Categories",
   },
   {
-    path: '/analytics',
+    path: "/analytics",
     icon: HiOutlineChartBar,
-    label: 'Analytics',
+    label: "Analytics",
   },
   {
-    path: '/settings',
+    path: "/settings",
     icon: HiOutlineCog6Tooth,
-    label: 'Settings',
+    label: "Settings",
   },
   {
-    path: '/access-token',
-    icon: HiKey,
-    label: 'Access Token',
+    path: "/access-token",
+    icon: HiOutlineKey,
+    label: "Access Token",
   },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
 
   return (
     <>
@@ -76,7 +76,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           backdrop-blur-xl border-r border-white/10
           flex flex-col
           transition-transform duration-300 ease-out
-          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         {/* Logo */}
@@ -90,7 +90,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               <span className="text-xs text-gray-500">Admin Panel</span>
             </div>
           </NavLink>
-          
+
           {/* Close button - mobile only */}
           <button
             onClick={onClose}
@@ -114,12 +114,14 @@ const Sidebar = ({ isOpen, onClose }) => {
                   transition-all duration-200
                   ${
                     isActive
-                      ? 'bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-white border border-violet-500/30'
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                      ? "bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-white border border-violet-500/30"
+                      : "text-gray-400 hover:text-white hover:bg-white/5"
                   }
                 `}
               >
-                <item.icon className={`w-5 h-5 ${isActive ? 'text-violet-400' : ''}`} />
+                <item.icon
+                  className={`w-5 h-5 ${isActive ? "text-violet-400" : ""}`}
+                />
                 <span className="font-medium">{item.label}</span>
                 {isActive && (
                   <motion.div
