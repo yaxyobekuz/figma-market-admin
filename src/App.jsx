@@ -9,6 +9,7 @@ import {
   Categories,
   Settings,
   Analytics,
+  AccessToken,
 } from './pages';
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="categories" element={<Categories />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="access-token" element={<AccessToken />} />
         </Route>
       </Routes>
     </BrowserRouter>

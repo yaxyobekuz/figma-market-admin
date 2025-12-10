@@ -5,3 +5,4 @@ export { default as EditDesign } from './EditDesign';
 export { default as Categories } from './Categories';
 export { default as Settings } from './Settings';
 export { default as Analytics } from './Analytics';
+export { default as AccessToken } from './AccessToken';
