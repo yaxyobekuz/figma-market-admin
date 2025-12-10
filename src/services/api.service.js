@@ -1,14 +1,11 @@
-import axios from 'axios';
-import { API_URL } from '../config/api.config';
-import { getStoredAccessToken } from '../config/auth.config';
+import axios from "axios";
+import { API_URL } from "../config/api.config";
+import { getStoredAccessToken } from "../config/auth.config";
 
 // Create axios instance
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { "Content-Type": "application/json" },
 });
 
 // Request interceptor
@@ -40,8 +37,9 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    const message = error.response?.data?.message || error.message || 'Something went wrong';
-    console.error('API Error:', message);
+    const message =
+      error.response?.data?.message || error.message || "Something went wrong";
+    console.error("API Error:", message);
     return Promise.reject(error);
   }
 );
