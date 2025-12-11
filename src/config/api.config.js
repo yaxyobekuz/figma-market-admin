@@ -12,8 +12,8 @@ export const ENDPOINTS = {
 
 // Upload limits
 export const UPLOAD_LIMITS = {
-  maxThumbnailSize: 5 * 1024 * 1024, // 5MB
-  maxPreviewSize: 10 * 1024 * 1024, // 10MB
+  maxThumbnailSize: 15 * 1024 * 1024, // 15MB
+  maxPreviewSize: 15 * 1024 * 1024, // 15MB
   maxPreviewImages: 5,
   allowedTypes: ["image/jpeg", "image/png", "image/webp"],
 };
