@@ -12,3 +12,4 @@ export { default as ConfirmDialog } from './ConfirmDialog';
 export { default as EmptyState } from './EmptyState';
 export { default as SearchInput } from './SearchInput';
 export { default as Checkbox } from './Checkbox';
+export { default as RichTextEditor } from './RichTextEditor';
