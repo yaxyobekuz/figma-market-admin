@@ -6,6 +6,9 @@ import {
   DesignsList,
   AddDesign,
   EditDesign,
+  BlogsList,
+  AddBlog,
+  EditBlog,
   Categories,
   Settings,
   Analytics,
@@ -50,6 +53,9 @@ const App = () => {
           <Route path="designs" element={<DesignsList />} />
           <Route path="designs/new" element={<AddDesign />} />
           <Route path="designs/:id" element={<EditDesign />} />
+          <Route path="blogs" element={<BlogsList />} />
+          <Route path="blogs/new" element={<AddBlog />} />
+          <Route path="blogs/:id" element={<EditBlog />} />
           <Route path="categories" element={<Categories />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />

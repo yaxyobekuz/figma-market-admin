@@ -9,6 +9,8 @@ import {
   HiOutlineTag,
   HiOutlineKey,
   HiXMark,
+  HiOutlineDocumentText,
+  HiOutlinePencilSquare,
 } from "react-icons/hi2";
 
 const menuItems = [
@@ -26,6 +28,16 @@ const menuItems = [
     path: "/designs/new",
     icon: HiOutlinePlusCircle,
     label: "Add Design",
+  },
+  {
+    path: "/blogs",
+    icon: HiOutlineDocumentText,
+    label: "Blogs",
+  },
+  {
+    path: "/blogs/new",
+    icon: HiOutlinePencilSquare,
+    label: "Add Blog",
   },
   {
     path: "/categories",
