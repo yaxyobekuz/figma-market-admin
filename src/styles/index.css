@@ -158,11 +158,33 @@
 .tiptap {
   @apply !outline-none;
 
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold;
+  }
+
+  strong {
+    @apply font-medium sm:font-semibold;
+  }
+
   h2 {
-    @apply text-2xl font-medium;
+    @apply mb-1.5 text-xl sm:text-2xl sm:mb-2.5 md:mb-3.5 md:text-3xl;
   }
 
   h3 {
-    @apply text-xl font-medium;
+    @apply mb-1 text-lg sm:text-xl md:mb-1.5 md:text-2xl;
+  }
+
+  ul {
+    @apply list-disc pl-5;
+  }
+
+  a {
+    @apply not-italic text-indigo-600 transition-colors hover:text-indigo-800;
+  }
+
+  p {
+    @apply min-h-6;
   }
 }

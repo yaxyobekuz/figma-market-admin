@@ -282,7 +282,7 @@ const RichTextEditor = ({
         `}
       >
         <MenuBar editor={editor} />
-        <EditorContent editor={editor} className="p-4" />
+        <EditorContent spellCheck={false} editor={editor} className="p-4" />
       </div>
       {error && <p className="text-sm text-red-400">{error}</p>}
     </div>
