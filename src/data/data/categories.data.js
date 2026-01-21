@@ -10,6 +10,11 @@ const categories = [
     href: "/explore/web-site",
   },
   {
+    name: "Dashboard",
+    slug: "dashboard",
+    href: "/explore/dashboard",
+  },
+  {
     name: "Mobile App",
     slug: "mobile-app",
     href: "/explore/mobile-app",
